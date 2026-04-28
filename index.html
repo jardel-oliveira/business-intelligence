@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jardel Oliveira — BI & Market Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c0e;
+    --surface: #111417;
+    --surface2: #181c20;
+    --border: #1e2428;
+    --border2: #252c32;
+    --accent: #00c9a7;
+    --accent2: #00857a;
+    --accent-dim: rgba(0,201,167,0.08);
+    --accent-dim2: rgba(0,201,167,0.15);
+    --text: #e8ecef;
+    --text2: #9aa3ad;
+    --text3: #5a6470;
+    --gold: #d4a853;
+    --page: 900px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    background: var(--bg);
+    font-size: 17px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.68;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .container {
+    max-width: var(--page);
+    margin: 0 auto;
+    padding: 0 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ─── HEADER ─────────────────────────────── */
+  .header {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: end;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .header-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .header-tag::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 5vw, 52px);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+
+  h1 em {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .header-subtitle {
+    font-size: 16.5px;
+    color: var(--text2);
+    margin-top: 14px;
+    max-width: 480px;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .header-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+  }
+
+  .contact-item {
+    font-family: 'DM Mono', monospace;
+    font-size: 13.5px;
+    color: var(--text2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .contact-item:hover { color: var(--accent); }
+
+  .contact-item .dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ─── GRID LAYOUT ─────────────────────────── */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 0;
+    margin-top: 0;
+  }
+
+  .col-main {
+    padding: 40px 40px 0 0;
+    border-right: 1px solid var(--border);
+  }
+
+  .col-side {
+    padding: 40px 0 0 32px;
+  }
+
+  /* ─── SECTION TITLES ──────────────────────── */
+  .section-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .section { margin-bottom: 48px; animation: fadeUp 0.6s ease both; }
+
+  /* ─── SUMMARY ─────────────────────────────── */
+  .summary-text {
+    font-size: 16px;
+    color: var(--text2);
+    line-height: 1.85;
+    font-weight: 300;
+    border-left: 2px solid var(--accent);
+    padding-left: 20px;
+  }
+
+  /* ─── TIMELINE ────────────────────────────── */
+  .timeline { position: relative; }
+
+  .timeline-item {
+    position: relative;
+    padding-left: 24px;
+    padding-bottom: 32px;
+    border-left: 1px solid var(--border2);
+  }
+
+  .timeline-item:last-child {
+    border-left: 1px solid transparent;
+    padding-bottom: 0;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: 6px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px var(--bg);
+  }
+
+  .timeline-item.sub {
+    padding-left: 20px;
+    padding-bottom: 20px;
+    border-left: 1px solid var(--border);
+    margin-left: 20px;
+  }
+
+  .timeline-item.sub::before {
+    width: 5px; height: 5px;
+    background: var(--border2);
+    left: -3px;
+  }
+
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+
+  .job-title {
+    font-size: 16.5px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  .job-company {
+    font-size: 14px;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 4px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .job-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 11.5px;
+    color: var(--text3);
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .job-bullets {
+    margin-top: 10px;
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .job-bullets li {
+    font-size: 14.25px;
+    color: var(--text2);
+    line-height: 1.78;
+    padding-left: 14px;
+    position: relative;
+    margin-bottom: 4px;
+    font-weight: 300;
+  }
+
+  .job-bullets li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--text3);
+    font-size: 11px;
+  }
+
+  /* ─── SIDEBAR ─────────────────────────────── */
+
+  /* Skills blocks */
+  .skill-group { margin-bottom: 24px; }
+
+  .skill-group-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 10px;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11.5px;
+    color: var(--text2);
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 3px;
+    padding: 3px 8px;
+    transition: all 0.2s;
+  }
+
+  .tag:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  .tag.highlight {
+    background: var(--accent-dim);
+    border-color: var(--accent2);
+    color: var(--accent);
+  }
+
+  /* Bar skills */
+  .bar-item { margin-bottom: 12px; }
+
+  .bar-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 13px;
+    color: var(--text2);
+  }
+
+  .bar-label span:last-child {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text3);
+  }
+
+  .bar-track {
+    height: 2px;
+    background: var(--border2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    border-radius: 2px;
+    animation: barGrow 1s ease both;
+    animation-delay: 0.3s;
+    transform-origin: left;
+  }
+
+  /* Education & cert items */
+  .edu-item { margin-bottom: 18px; }
+
+  .edu-degree {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  .edu-school {
+    font-size: 13.5px;
+    color: var(--accent2);
+    font-family: 'DM Mono', monospace;
+    margin-top: 2px;
+  }
+
+  .edu-year {
+    font-size: 12px;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+    margin-top: 1px;
+  }
+
+  .cert-item {
+    font-size: 13px;
+    color: var(--text2);
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-weight: 300;
+  }
+
+  .cert-item:last-child { border-bottom: none; }
+
+  .cert-item::before {
+    content: '↗';
+    color: var(--accent2);
+    font-size: 11px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* Languages */
+  .lang-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13.5px;
+  }
+
+  .lang-item:last-child { border-bottom: none; }
+
+  .lang-level {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text3);
+    background: var(--surface2);
+    padding: 2px 7px;
+    border-radius: 2px;
+    border: 1px solid var(--border2);
+  }
+
+  /* Stat cards */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+
+  .stat-card {
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    padding: 14px 12px;
+    text-align: center;
+  }
+
+  .stat-number {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--accent);
+    line-height: 1;
+    display: block;
+  }
+
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+    display: block;
+    line-height: 1.3;
+  }
+
+  /* ─── FOOTER ──────────────────────────────── */
+  .footer {
+    border-top: 1px solid var(--border);
+    margin-top: 24px;
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-left {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 0.1em;
+  }
+
+  .footer-right {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text3);
+  }
+
+  /* ─── ANIMATIONS ──────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes barGrow {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  .section:nth-child(1) { animation-delay: 0.1s; }
+  .section:nth-child(2) { animation-delay: 0.2s; }
+  .section:nth-child(3) { animation-delay: 0.3s; }
+
+
+  /* ─── RESPONSIVE / SMARTPHONES ───────────── */
+  @media (max-width: 820px) {
+    :root { --page: 100%; }
+
+    html { font-size: 16px; }
+
+    .container {
+      width: 100%;
+      padding: 0 18px 56px;
+    }
+
+    .header {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      padding: 42px 0 32px;
+      align-items: start;
+    }
+
+    .header-tag {
+      font-size: 10.5px;
+      line-height: 1.5;
+      letter-spacing: 0.14em;
+      flex-wrap: wrap;
+    }
+
+    .header-tag::before { width: 16px; }
+
+    h1 {
+      font-size: clamp(38px, 12vw, 48px);
+      line-height: 1.02;
+    }
+
+    .header-subtitle {
+      font-size: 16px;
+      line-height: 1.75;
+      max-width: 100%;
+    }
+
+    .header-contact {
+      align-items: flex-start;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .contact-item {
+      font-size: 12.5px;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+
+    .main-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .col-main {
+      padding: 34px 0 0;
+      border-right: none;
+    }
+
+    .col-side {
+      padding: 8px 0 0;
+    }
+
+    .section {
+      margin-bottom: 42px;
+    }
+
+    .section-title {
+      font-size: 10.5px;
+      letter-spacing: 0.18em;
+      margin-bottom: 22px;
+    }
+
+    .summary-text {
+      font-size: 16px;
+      padding-left: 16px;
+    }
+
+    .timeline-item {
+      padding-left: 20px;
+      padding-bottom: 30px;
+    }
+
+    .job-header {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .job-title {
+      font-size: 16px;
+      line-height: 1.35;
+    }
+
+    .job-company {
+      font-size: 13.5px;
+    }
+
+    .job-meta {
+      margin-top: 8px;
+      white-space: normal;
+      font-size: 11.5px;
+      line-height: 1.55;
+    }
+
+    .job-bullets li {
+      font-size: 14.5px;
+      line-height: 1.78;
+      margin-bottom: 7px;
+      padding-left: 16px;
+    }
+
+    .stats-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .stat-card {
+      padding: 16px 12px;
+    }
+
+    .stat-number {
+      font-size: 30px;
+    }
+
+    .skill-tags {
+      gap: 8px;
+    }
+
+    .tag {
+      font-size: 11.5px;
+      padding: 5px 9px;
+      line-height: 1.35;
+    }
+
+    .bar-item { margin-bottom: 16px; }
+
+    .bar-label {
+      font-size: 13.5px;
+      gap: 12px;
+    }
+
+    .bar-track { height: 3px; }
+
+    .edu-degree { font-size: 14.5px; }
+    .edu-school { font-size: 12.5px; }
+    .edu-year { font-size: 12px; }
+
+    .cert-item {
+      font-size: 13.5px;
+      line-height: 1.55;
+      padding: 8px 0;
+    }
+
+    .lang-item {
+      font-size: 13.5px;
+      padding: 10px 0;
+    }
+
+    .footer {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+  }
+
+  @media (max-width: 460px) {
+    .container { padding: 0 16px 48px; }
+
+    .header { padding-top: 34px; }
+
+    h1 { font-size: clamp(36px, 13vw, 44px); }
+
+    .header-subtitle,
+    .summary-text {
+      font-size: 15.5px;
+    }
+
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .contact-item {
+      font-size: 12px;
+    }
+
+    .job-bullets li {
+      font-size: 14px;
+    }
+  }
+
+  /* ─── PRINT / PDF ─────────────────────────── */
+  @media print {
+    body::before { display: none; }
+    .container { padding-bottom: 0; }
+    .section { animation: none; }
+    .bar-fill { animation: none; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-left">
+      <div class="header-tag">Business Intelligence · Market Intelligence · Data Analytics</div>
+      <h1>Jardel <em>Oliveira</em></h1>
+      <p class="header-subtitle">
+        Profissional sênior em BI e Inteligência de Mercado com mais de 10 anos transformando dados em decisões. 
+        Especialista em Power BI, SQL Server, GA4 e marketing analytics — da coleta ao insight executivo.
+      </p>
+    </div>
+    <div class="header-contact">
+      <a href="tel:+5561996949044" class="contact-item"><span class="dot"></span>+55 (61) 99694-9044</a>
+      <a href="mailto:jardel.silva.oliveira@gmail.com" class="contact-item"><span class="dot"></span>jardel.silva.oliveira@gmail.com</a>
+      <a href="https://linkedin.com/in/jardelsilvaoliveira" class="contact-item"><span class="dot"></span>linkedin.com/in/jardelsilvaoliveira</a>
+      <a class="contact-item"><span class="dot"></span>Brasília, DF · Brasil</a>
+    </div>
+  </header>
+
+  <!-- MAIN GRID -->
+  <div class="main-grid">
+
+    <!-- COL MAIN -->
+    <div class="col-main">
+
+      <!-- RESUMO -->
+      <div class="section">
+        <div class="section-title">Resumo</div>
+        <p class="summary-text">
+          Mais de uma década construindo camadas analíticas — de pipelines de dados a dashboards executivos e pesquisas de mercado com usuários reais. Atuo na interseção entre dados, marketing e produto: definindo KPIs, estruturando relatórios gerenciais e traduzindo números em narrativas acionáveis para lideranças de diferentes setores.
+        </p>
+      </div>
+
+      <!-- EXPERIÊNCIA -->
+      <div class="section">
+        <div class="section-title">Experiência</div>
+        <div class="timeline">
+
+          <div class="timeline-item">
+            <div class="job-header">
+              <div>
+                <div class="job-company">Marketdata</div>
+                <div class="job-title">Inteligência de Mercado</div>
+              </div>
+              <div class="job-meta">fev 2025 — atual<br>Brasília, DF</div>
+            </div>
+            <ul class="job-bullets">
+              <li>Aplicação de questionários e estudos estruturados com base qualificada de usuários.</li>
+              <li>Tratamento e análise de bases de pesquisa com foco em qualidade e confiabilidade.</li>
+              <li>Construção de dashboards e visões analíticas em Power BI para acompanhamento de resultados.</li>
+              <li>SQL Server para validação de dados e preparação de datasets para consumo em BI.</li>
+              <li>Produção de relatórios e apresentações executivas com achados e recomendações de negócio.</li>
+            </ul>
+          </div>
+
+          <div class="timeline-item">
+            <div class="job-header">
+              <div>
+                <div class="job-company">Sicoob Espírito Santo</div>
+                <div class="job-title">Inteligência de Mercado</div>
+              </div>
+              <div class="job-meta">mai 2024 — jan 2025<br>ES, Híbrido</div>
+            </div>
+            <ul class="job-bullets">
+              <li>Estudos de marketing e mercado para posicionamento de produtos e campanhas.</li>
+              <li>Definição e acompanhamento de KPIs de aquisição, engajamento e funil.</li>
+              <li>Automações para análise de leads e suporte a decisões de CRM.</li>
+              <li>Reporting gerencial com insights acionáveis para planejamento comercial.</li>
+            </ul>
+          </div>
+
+          <div class="timeline-item">
+            <div class="job-header">
+              <div>
+                <div class="job-company">Escala</div>
+                <div class="job-title">Coordenador de BI</div>
+              </div>
+              <div class="job-meta">fev 2023 — mai 2024<br>Porto Alegre, Remoto</div>
+            </div>
+            <ul class="job-bullets">
+              <li>Liderança de projetos de BI para mensuração de campanhas e decisões comerciais.</li>
+              <li>Dashboards interativos em Power BI e Looker para mídia paga e métricas de funil.</li>
+              <li>Alinhamentos com times criativos e comerciais orientando otimizações com dados.</li>
+              <li>Padronização de KPIs e rotinas para acelerar entregas de insights.</li>
+            </ul>
+          </div>
+
+          <div class="timeline-item">
+            <div class="job-header">
+              <div>
+                <div class="job-company">Mirum Agency</div>
+                <div class="job-title">Coordenador de BI</div>
+              </div>
+              <div class="job-meta">ago 2022 — fev 2023<br>Curitiba, Remoto</div>
+            </div>
+            <ul class="job-bullets">
+              <li>Dashboards e monitoramento de KPIs: CPA, CTR e ROI.</li>
+              <li>Segmentações e mensuração de social media para eficiência de conversão.</li>
+              <li>Apresentação de resultados a stakeholders com recomendações de ajuste de mídia.</li>
+            </ul>
+          </div>
+
+          <div class="timeline-item">
+            <div class="job-header">
+              <div>
+                <div class="job-company">Artplan</div>
+                <div class="job-title">Supervisor de BI → Analista Sênior</div>
+              </div>
+              <div class="job-meta">nov 2019 — ago 2022<br>Brasília, DF</div>
+            </div>
+            <ul class="job-bullets">
+              <li>Liderança de BI e automação de rotinas de mensuração e reporting multicanal.</li>
+              <li>Frameworks de CAC, CPL e ROI em relatórios executivos recorrentes.</li>
+              <li>Web Analytics com governança de tags e validação de funis de conversão (GTM).</li>
+              <li>Dashboards em Power BI e Google Data Studio para marketing e vendas.</li>
+            </ul>
+          </div>
+
+          <div class="timeline-item">
+            <div class="job-header">
+              <div>
+                <div class="job-company">Diários Associados</div>
+                <div class="job-title">Analista de Dados e Web Analytics Sênior</div>
+              </div>
+              <div class="job-meta">jun — nov 2019<br>Brasília, DF</div>
+            </div>
+            <ul class="job-bullets">
+              <li>Monitoramento de audiência e SEO para portais de notícias.</li>
+              <li>Relatórios para redação visando crescimento de tráfego orgânico e engajamento.</li>
+            </ul>
+          </div>
+
+          <div class="timeline-item">
+            <div class="job-header">
+              <div>
+                <div class="job-company">Núcleo de Mídia da Caixa</div>
+                <div class="job-title">Coordenador de BI</div>
+              </div>
+              <div class="job-meta">set 2018 — jun 2019<br>Brasília, DF</div>
+            </div>
+            <ul class="job-bullets">
+              <li>Dashboards para campanhas com foco em comportamento do usuário e otimização de mídia.</li>
+              <li>Estudos de público e identificação de oportunidades para novos formatos comerciais.</li>
+            </ul>
+          </div>
+
+          <div class="timeline-item">
+            <div class="job-header">
+              <div>
+                <div class="job-company">Alvo Distribuição e Logística</div>
+                <div class="job-title">Analista de Dados Sênior</div>
+              </div>
+              <div class="job-meta">set 2017 — set 2018<br>Brasília, DF</div>
+            </div>
+            <ul class="job-bullets">
+              <li>Reporting comercial e logístico com indicadores de vendas, estoque e distribuição.</li>
+              <li>Análises de rentabilidade e segmentação de clientes para times de vendas.</li>
+            </ul>
+          </div>
+
+          <div class="timeline-item">
+            <div class="job-header">
+              <div>
+                <div class="job-company">Grupo Mundial · Rede Breve · DiSDAL · A Musical Shop</div>
+                <div class="job-title">Marketing, BI e Gestão Comercial</div>
+              </div>
+              <div class="job-meta">2010 — 2017<br>Brasília, DF</div>
+            </div>
+            <ul class="job-bullets">
+              <li>Trajetória inicial em marketing, análise de dados, gestão de equipes e operações comerciais.</li>
+              <li>KPIs de varejo, planos de marketing e relatórios de performance em múltiplos setores.</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /col-main -->
+
+    <!-- COL SIDEBAR -->
+    <div class="col-side">
+
+      <!-- STATS -->
+      <div class="section">
+        <div class="section-title">Carreira</div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-number">10+</span>
+            <span class="stat-label">anos de experiência</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">8+</span>
+            <span class="stat-label">empresas atendidas</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">BI</span>
+            <span class="stat-label">especialidade core</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">MBA</span>
+            <span class="stat-label">Engenharia de Dados</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FERRAMENTAS CORE -->
+      <div class="section">
+        <div class="section-title">Ferramentas</div>
+
+        <div class="bar-item">
+          <div class="bar-label"><span>Power BI / DAX</span><span>Avançado</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:95%"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-label"><span>SQL Server</span><span>Avançado</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:90%"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-label"><span>GA4 / GTM</span><span>Avançado</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:88%"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-label"><span>Python / Pandas</span><span>Intermediário</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:70%"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-label"><span>Looker Studio</span><span>Avançado</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:85%"></div></div>
+        </div>
+        <div class="bar-item">
+          <div class="bar-label"><span>Excel Avançado</span><span>Avançado</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:92%"></div></div>
+        </div>
+      </div>
+
+      <!-- SKILLS -->
+      <div class="section">
+        <div class="section-title">Competências</div>
+
+        <div class="skill-group">
+          <div class="skill-group-title">Dados & BI</div>
+          <div class="skill-tags">
+            <span class="tag highlight">Star Schema</span>
+            <span class="tag highlight">Data Warehouse</span>
+            <span class="tag">ETL / ELT</span>
+            <span class="tag">CTEs</span>
+            <span class="tag">Window Functions</span>
+            <span class="tag">KPI Frameworks</span>
+            <span class="tag">Data Cleaning</span>
+            <span class="tag">APIs REST</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-title">Marketing Analytics</div>
+          <div class="skill-tags">
+            <span class="tag highlight">Google Ads</span>
+            <span class="tag highlight">Meta Ads</span>
+            <span class="tag">CAC · LTV · CPA</span>
+            <span class="tag">Attribution Models</span>
+            <span class="tag">Funil de Conversão</span>
+            <span class="tag">Análise de Coorte</span>
+            <span class="tag">Segmentação</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-title">Soft Skills</div>
+          <div class="skill-tags">
+            <span class="tag">Storytelling de Dados</span>
+            <span class="tag">Gestão de Stakeholders</span>
+            <span class="tag">Apresentações Exec.</span>
+            <span class="tag">Governança de Dados</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORMAÇÃO -->
+      <div class="section">
+        <div class="section-title">Formação</div>
+
+        <div class="edu-item">
+          <div class="edu-degree">MBA em Engenharia de Dados</div>
+          <div class="edu-school">XP Educação</div>
+          <div class="edu-year">2023 — 2024</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-degree">Análise e Desenvolvimento de Sistemas</div>
+          <div class="edu-school">Grupo Projeção</div>
+          <div class="edu-year">2017 — 2020</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-degree">Graduação em Marketing</div>
+          <div class="edu-school">UniCesumar</div>
+          <div class="edu-year">2012 — 2014</div>
+        </div>
+      </div>
+
+      <!-- CERTIFICAÇÕES -->
+      <div class="section">
+        <div class="section-title">Certificações</div>
+        <div class="cert-item">Google Ads Display & Video · Skillshop (2022)</div>
+        <div class="cert-item">Google Analytics Individual Qualification (2021)</div>
+        <div class="cert-item">Business Intelligence Manager · IGTI (148h)</div>
+        <div class="cert-item">Machine Learning Bootcamp · IGTI (148h)</div>
+        <div class="cert-item">Data Cloud Engineer · XPE (148h)</div>
+        <div class="cert-item">Python & JavaScript Intermediário · DataCamp</div>
+        <div class="cert-item">Agile Methodologies · IGTI (50h)</div>
+      </div>
+
+      <!-- IDIOMAS -->
+      <div class="section">
+        <div class="section-title">Idiomas</div>
+        <div class="lang-item">
+          <span>Português</span>
+          <span class="lang-level">Nativo</span>
+        </div>
+        <div class="lang-item">
+          <span>Inglês</span>
+          <span class="lang-level">Intermediário</span>
+        </div>
+        <div class="lang-item">
+          <span>Espanhol</span>
+          <span class="lang-level">Básico</span>
+        </div>
+      </div>
+
+    </div><!-- /col-side -->
+  </div><!-- /main-grid -->
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span class="footer-left">JARDEL OLIVEIRA · CV · 2026</span>
+    <span class="footer-right">jardel.silva.oliveira@gmail.com</span>
+  </div>
+
+</div><!-- /container -->
+</body>
+</html>
